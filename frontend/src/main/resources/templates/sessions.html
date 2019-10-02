@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta content="SpringOne Platform 2019 Reactive Demo" name="description"/>
+    <meta content="Violeta Georgieva" name="author"/>
+    <title>SpringOne Platform 2019 Reactive Demo</title>
+    <link href="/webjars/bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet"/>
+    <link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+        body{
+            font-size: 16px;
+            color: #13377D;
+            font-family: 'Native-Regular', monospace !important;
+            background: #00d5c1 !important;
+        }
+        .navbar {
+            background: #13377D;
+            border:none;
+        }
+        .navbar-default .navbar-nav li.active>a {
+            background: #f7dd5f !important;
+            color: #13377D;
+        }
+        .navbar-default .navbar-brand, .navbar-default .navbar-nav li>a {
+            color: #00d5c1;
+        }
+        .navbar-default .navbar-nav li>a:hover,  .navbar-default a.navbar-brand:hover {
+            color: #f7dd5f;
+        }
+        .table-striped>tbody>tr:nth-of-type(odd) {
+            background-color: white;
+        }
+        .table-striped>tbody>tr:nth-of-type(even) {
+            background-color: #EFEEEE;
+        }
+        .container {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">SpringOne Platform 2019 Reactive Demo</a>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li class="active"><a href="/sessions">Sessions</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container wrapper">
+    <h2>Sessions</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Day</th>
+            <th>Time Slot</th>
+            <th>Title</th>
+            <th>Speakers</th>
+            <th>Company</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="_session: ${sessions}">
+            <td th:text="${_session.day}">Something</td>
+            <td th:text="${_session.timeslot}">Something</td>
+            <td th:text="${_session.title}">Something</td>
+            <td th:text="${_session.speakers}">Something</td>
+            <td th:text="${_session.companies}">Something</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script src="/webjars/jquery/1.11.1/jquery.min.js" type="text/javascript"></script>
+<script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+</body>
+</html>
