@@ -1,11 +1,10 @@
 package io.spring.speakersservice;
 
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.stereotype.Controller;
 import reactor.core.publisher.Flux;
 
-@RestController
+@Controller
 public class SpeakersController {
 	private final SpeakersRepository repository;
 
@@ -13,7 +12,7 @@ public class SpeakersController {
 		this.repository = repository;
 	}
 
-	@GetMapping(path = "/listSpeakers", produces = MediaType.APPLICATION_JSON_VALUE)
+	@MessageMapping("listSpeakers")
 	public Flux<Speaker> listSpeakers() {
 		return this.repository.findAll();
 	}

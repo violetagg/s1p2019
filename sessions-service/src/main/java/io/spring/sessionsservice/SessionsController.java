@@ -1,12 +1,10 @@
 package io.spring.sessionsservice;
 
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.stereotype.Controller;
 import reactor.core.publisher.Flux;
 
-@RestController
+@Controller
 public class SessionsController {
 	private final SessionsRepository repository;
 
@@ -14,13 +12,8 @@ public class SessionsController {
 		this.repository = repository;
 	}
 
-	@GetMapping(path = "/listSessions", produces = MediaType.APPLICATION_JSON_VALUE)
+	@MessageMapping("listSessions")
 	public Flux<Session> listSessions() {
 		return this.repository.findAll();
-	}
-
-	@GetMapping(path = "/listSessions/{day}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Flux<Session> listSessionsByDay(@PathVariable String day) {
-		return this.repository.findAllByDay(day);
 	}
 }

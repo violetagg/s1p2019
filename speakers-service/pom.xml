@@ -34,9 +34,8 @@
 			<version>0.8.0.RC2</version>
 		</dependency>
 		<dependency>
-			<groupId>io.projectreactor.tools</groupId>
-			<artifactId>blockhound</artifactId>
-			<version>1.0.0.RELEASE</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-rsocket</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.projectreactor.netty</groupId>
