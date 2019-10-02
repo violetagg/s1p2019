@@ -1,49 +1,38 @@
 package io.spring.frontend;
 
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.client.RestTemplate;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import static org.springframework.http.MediaType.APPLICATION_JSON;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 
 @Controller
 public class FrontendController {
-	private final RestTemplate restTemplate;
+	private final WebClient webClient;
 
-	public FrontendController(RestTemplateBuilder restTemplateBuilder) {
-		this.restTemplate = restTemplateBuilder.build();
+	public FrontendController(WebClient.Builder webClientBuilder) {
+		this.webClient = webClientBuilder.build();
 	}
 
 	@GetMapping("/")
-	public String home(Model model) throws URISyntaxException {
-		model.addAttribute("speakers", restTemplate.exchange(
-				get("http://localhost:8082/listSpeakers"),
-				new ParameterizedTypeReference<Iterable<Speaker>>() {
-				}).getBody());
+	public String home(Model model) {
+		Flux<Speaker> speakers =
+				webClient.get()
+						.uri("http://localhost:8082/listSpeakers")
+						.retrieve()
+						.bodyToFlux(Speaker.class);
+		model.addAttribute("speakers", speakers);
 		return "index";
 	}
 
 	@GetMapping("/sessions")
-	public String sessions(Model model) throws URISyntaxException {
-		Iterable<Session> sessions = restTemplate.exchange(
-				get("http://localhost:8081/listSessions"),
-				new ParameterizedTypeReference<Iterable<Session>>() {
-				}).getBody();
+	public String sessions(Model model) {
+		Flux<Session> sessions =
+				webClient.get()
+						.uri("http://localhost:8081/listSessions")
+						.retrieve()
+						.bodyToFlux(Session.class);
 		model.addAttribute("sessions", sessions);
 		return "sessions";
-	}
-
-	private RequestEntity<?> get(String uri) throws URISyntaxException {
-		return RequestEntity
-				.get(new URI(uri))
-				.accept(APPLICATION_JSON)
-				.build();
 	}
 }
