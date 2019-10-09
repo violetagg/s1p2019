@@ -1,13 +1,11 @@
 package io.spring.sessionsservice;
 
-import org.springframework.data.jdbc.repository.query.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.r2dbc.repository.query.Query;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import reactor.core.publisher.Flux;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface SessionsRepository extends CrudRepository<Session, Long> {
+public interface SessionsRepository extends ReactiveCrudRepository<Session, Long> {
 
 	@Query("SELECT * FROM sessions WHERE day = :day")
-	Optional<List<Session>> findAllByDay(String day);
+	Flux<Session> findAllByDay(String day);
 }
