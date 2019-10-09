@@ -1,17 +1,24 @@
 package io.spring.frontend;
 
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
+import reactor.netty.http.client.HttpClient;
 
 @Controller
 public class FrontendController {
 	private final WebClient webClient;
 
 	public FrontendController(WebClient.Builder webClientBuilder) {
-		this.webClient = webClientBuilder.build();
+		this.webClient =
+				webClientBuilder.clientConnector(new ReactorClientHttpConnector(
+						HttpClient.create()
+								.compress(true)
+								.metrics(true)))
+						.build();
 	}
 
 	@GetMapping("/")

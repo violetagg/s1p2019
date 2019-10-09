@@ -1,0 +1,5 @@
+scrape_configs:
+  - job_name: 'Push gateway'
+    static_configs:
+      - targets: ['prometheus_pushgateway:9091']
+    scrape_interval: 5s
